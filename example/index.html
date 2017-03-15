@@ -7,20 +7,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
-    <!--<link rel="stylesheet" href="gumga.css">-->
 </head>
 
 <body data-ng-controller="ctrl">
 
-  <h1>Gumga Address</h1>
+  <h1>Gumga Many To Many</h1>
   <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-      <gumga-address value="address" name="endereco" title="Preencha um endereço" state-city="false" state-city-ibge="true" cep="true" neighbourhood="true"
-        street="false" lat-lng="true" street-number="true" complement="true" on-search-cep-start="start()" on-search-cep-success="success()" on-search-cep-error="error()">
-      </gumga-address>
-<pre>
-{{address | json}}
-</pre>
+    <div class="col-md-8 col-md-offset-2">
+      <gumga-many-to-many
+        left-list="pessoas.data"
+        text-left="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
+        text-right="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
+        right-list="selecionados"
+        left-search="pessoas.methods.asyncSearch('nome', param)"
+        authorize-add="false">
+        <left-field>{{$value.nome}}</left-field>
+        <right-field>{{$value.nome}}</right-field>
+      </gumga-many-to-many>
+    </div>
     </div>
   </div>
 
@@ -28,15 +32,21 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="../node_modules/angular/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
-  <script src="../dist/gumga-address.js"></script>
+  <script src="../node_modules/gumga-rest-ng/dist/gumga-rest.js"></script>
+  <script src="../node_modules/gumga-controller-ng/dist/gumga-controller.js"></script>
+  <script src="../dist/gumga-many-to-many.js"></script>
   <script>
     angular
       .module('app', ['ui.bootstrap','gumga.manytomany','gumga.controller', 'gumga.rest'])
       .config(function ($httpProvider) {
+        $httpProvider.defaults.headers.common['gumgaToken'] = ''
       })
       .controller('ctrl', ['gumgaController', 'GumgaRest', '$scope', function (gumgaController, GumgaRest, $scope) {
+        var PessoaService = new GumgaRest('');
+        gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
+        $scope.pessoas.methods.get();
+        console.log($scope.pessoas)
       }])
   </script>
 </body>
-
 </html>
