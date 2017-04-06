@@ -11,9 +11,9 @@
 
 <body data-ng-controller="ctrl">
 
-  <h1>Gumga Many To Many</h1>
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
+      <h1>Gumga Many To Many</h1>
       <gumga-many-to-many
         left-list="pessoas.data"
         text-left="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
@@ -45,7 +45,7 @@
         var PessoaService = new GumgaRest('');
         gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
         $scope.pessoas.methods.get();
-        console.log($scope.pessoas)
+        // console.log($scope.pessoas)
       }])
   </script>
 </body>
