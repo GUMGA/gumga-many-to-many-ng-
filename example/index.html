@@ -15,6 +15,7 @@
     <div class="col-md-8 col-md-offset-2">
       <h1>Gumga Many To Many</h1>
       <gumga-many-to-many
+        class="gmd"
         left-list="pessoas.data"
         text-left="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
         text-right="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
@@ -39,10 +40,10 @@
     angular
       .module('app', ['ui.bootstrap','gumga.manytomany','gumga.controller', 'gumga.rest'])
       .config(function ($httpProvider) {
-        $httpProvider.defaults.headers.common['gumgaToken'] = ''
+        $httpProvider.defaults.headers.common['gumgaToken'] = 'batistakids'
       })
       .controller('ctrl', ['gumgaController', 'GumgaRest', '$scope', function (gumgaController, GumgaRest, $scope) {
-        var PessoaService = new GumgaRest('');
+        var PessoaService = new GumgaRest('http://192.168.25.250/gileadeweb-api/api/pessoacadastro');
         gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
         $scope.pessoas.methods.get();
         // console.log($scope.pessoas)

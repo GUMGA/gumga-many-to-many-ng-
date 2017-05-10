@@ -9,16 +9,18 @@
     let template = `
     <div class="row">
       <div class="col-md-6 col-xs-6">
-        <label ng-hide="ctrl.leftListAux.length > 0">{{ctrl.textLeftEmpty}}</label>
-        <label ng-show="ctrl.leftListAux.length > 0" id="textinfoleft"></label>
-        <div ng-class="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd ? 'input-group' : ''">
-          <input class="form-control input-sm" placeholder="{{ctrl.textLeftPlaceholder}}" ng-change="ctrl.filterLeft(leftsearch)" ng-model="leftsearch"/>
-          <div ng-click="ctrl.addNew(leftsearch)" ng-show="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd" class="input-group-addon hover">
-            <i class="glyphicon glyphicon-plus"></i>
+        <div class="navbar">
+          <label ng-hide="ctrl.leftListAux.length > 0">{{ctrl.textLeftEmpty}}</label>
+          <label ng-show="ctrl.leftListAux.length > 0" id="textinfoleft"></label>
+          <div ng-class="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd ? 'input-group' : ''">
+            <input class="form-control gmd input-sm" placeholder="{{ctrl.textLeftPlaceholder}}" ng-change="ctrl.filterLeft(leftsearch)" ng-model="leftsearch"/>
+            <span class="bar"></span>
+            <div ng-click="ctrl.addNew(leftsearch)" ng-show="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd" class="input-group-addon hover">
+              <i class="glyphicon glyphicon-plus"></i>
+            </div>
           </div>
         </div>
-        <div class="line-break"></div>
-        <div class="panel panel-default">
+        <div class="panel gmd">
           <div class="panel-heading ">{{ctrl.textHeadingLeft}}</div>
           <ul class="list-group" style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
             <li class="list-group-item hover" ng-repeat="$value in ctrl.leftListAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index, $event)">
@@ -32,11 +34,13 @@
         </div>
       </div>
       <div class="col-md-6 col-xs-6">
-        <label ng-hide="ctrl.rightList.length > 0">{{ctrl.textRightEmpty}}</label>
-        <label ng-show="ctrl.rightList.length > 0" id="textinforight"></label>
-        <input class="form-control input-sm" ng-disabled="!ctrl.rightSearchField" placeholder="{{ctrl.textRightPlaceholder}}" ng-change="ctrl.filterRight(rightsearch)" ng-model="rightsearch"/>
-        <div class="line-break"></div>
-        <div class="panel panel-default">
+        <div class="navbar">
+          <label ng-hide="ctrl.rightList.length > 0">{{ctrl.textRightEmpty}}</label>
+          <label ng-show="ctrl.rightList.length > 0" id="textinforight"></label>
+          <input class="form-control input-sm gmd" ng-disabled="!ctrl.rightSearchField" placeholder="{{ctrl.textRightPlaceholder}}" ng-change="ctrl.filterRight(rightsearch)" ng-model="rightsearch"/>
+          <span class="bar"></span>
+        </div>
+        <div class="panel gmd">
           <div class="panel-heading ">{{ctrl.textHeadingRight}}</div>
           <ul class="list-group" ng-cloak style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
             <li class="list-group-item hover" ng-repeat="$value in ctrl.rightAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index)">

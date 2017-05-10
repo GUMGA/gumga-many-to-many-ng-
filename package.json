@@ -1,13 +1,13 @@
 {
   "name": "gumga-many-to-many-ng",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Gumga Many To Many",
   "main": "./src/many-to-many.js",
   "scripts": {
     "start": "npm-run-all -p live-server watch",
     "live-server": "live-server --host=localhost --port=9000",
-    "watch": "simplifyify 'src/query-action.js' -o 'dist/gumga-query-action.js' --bundle --minify --watch --debug",
-    "prod": "simplifyify 'src/query-action.js' -o 'dist/gumga-query-action.js' --bundle --minify",
+    "watch": "simplifyify 'src/many-to-many.js' -o 'dist/gumga-many-to-many.js' --bundle --minify --watch --debug",
+    "prod": "simplifyify 'src/many-to-many.js' -o 'dist/gumga-many-to-many.js' --bundle --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
