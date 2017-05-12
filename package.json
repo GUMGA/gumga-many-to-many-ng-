@@ -1,13 +1,18 @@
 {
   "name": "gumga-many-to-many-ng",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Gumga Many To Many",
   "main": "./src/many-to-many.js",
   "scripts": {
-    "start": "npm-run-all -p live-server watch",
+    "start": "npm-run-all -p live-server dev",
     "live-server": "live-server --host=localhost --port=9000",
-    "watch": "simplifyify 'src/many-to-many.js' -o 'dist/gumga-many-to-many.js' --bundle --minify --watch --debug",
-    "prod": "simplifyify 'src/many-to-many.js' -o 'dist/gumga-many-to-many.js' --bundle --minify",
+    "dev": "npm-run-all -p dev:sequential",
+    "dev:sequential": "npm-run-all -s -c dev:concat",
+    "dev:concat": "watchify ./src/many-to-many.js -o ./dist/gumga-many-to-many.js -t [ babelify ]",
+    "build": "npm-run-all -p build:sequential",
+    "build:sequential": "npm-run-all -s -c build:concat build:minify",
+    "build:concat": "browserify ./src/many-to-many.js -o ./dist/gumga-many-to-many.js -t [ babelify ]",
+    "build:minify": "uglifyjs ./dist/gumga-many-to-many.js -o ./dist/gumga-many-to-many.min.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -33,11 +38,15 @@
     "babelify": "^7.3.0",
     "gumga-controller-ng": "^1.0.0",
     "gumga-generic-filter-ng": "^1.0.0",
+    "browserify": "^13.1.0",
     "gumga-list-ng": "^1.0.0",
     "gumga-query-filter-ng": "^1.0.0",
     "gumga-rest-ng": "^1.0.0",
     "live-server": "^1.1.0",
+    "uglify-js": "^2.7.0",
     "npm-run-all": "^2.3.0",
+    "watchify": "^3.7.0",
+    "babel-cli": "^6.11.4",
     "simplifyify": "^3.2.1"
   },
   "author": "Gumga Tecnologia da Informação S/A",
