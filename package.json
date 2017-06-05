@@ -16,14 +16,39 @@
     "angular 1.x"
   ],
   "directories": {
-    "example": "example"
+    "example": "docs"
   },
   "dependencies": {
     "angular": "1.5.8"
   },
-  "babel": {
-    "presets": [
-      "es2015"
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ],
+      [
+        "uglifyify",
+        {
+          "mangle": false,
+          "compress": {
+            "sequences": true,
+            "dead_code": true,
+            "booleans": true,
+            "conditionals": true,
+            "if_return": false,
+            "drop_console": false,
+            "keep_fnames": true
+          },
+          "output": {
+            "comments": false
+          }
+        }
+      ]
     ]
   },
   "devDependencies": {

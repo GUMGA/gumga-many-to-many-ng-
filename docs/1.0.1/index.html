@@ -2,10 +2,11 @@
 <html ng-app="app">
   <head>
     <meta charset="utf-8">
-    <title>gumga-one-to-many-ng</title>
+    <title>gumga-many-to-many-ng</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="https://gumga.github.io/components/style.css">
+    <!--<link rel="stylesheet" href="https://gumga.github.io/layout/dist/gumga-layout.css">-->
 
   </head>
   <body >
@@ -13,7 +14,7 @@
     <nav class="navbar navbar-inverse" ng-controller="VersionController as ctrl">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">gumga-one-to-many-ng</a>
+          <a class="navbar-brand" href="#">gumga-many-to-many-ng</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
@@ -34,28 +35,20 @@
       <div class="row">
         <div class="col-xs-6">
           <h2>Descrição</h2>
-          <p>O componente gumga-one-to-many-ng pode ser usado quando é necessário a criação de uma lista de objetos dentro do formulário, especialmente quando esses objetos acessam outros Services. Ela lança um modal para a criação destes objetos, que podem ser recursivos. Além disso, possui suporte a edição e remoção destes registros.</p>
-
-          <h3>Pré requesitos</h3>
-          <p>
-            <ul>
-              <li>UI Bootstrap</li>
-              <li>Gumga Populate</li>
-            </ul>
-          </p>
+          <p>O componente gumga-many-to-many-ng é utilizado para mostrar duas listas lado a lado, permitindo que um registro seja trocado de uma lista para outra, assim como também visualizado os seus valores (caso seja um objeto). Para que o programador possa escolher como os valores serão apresentados, foram desenvolvidas duas tags para transcrita.</p>
         </div>
         <div class="col-xs-6">
           <h3>Instalação</h3>
           <pre><code class="prettyprint">// npm
-npm i gumga-one-to-many-ng --save
+npm i gumga-many-to-many-ng --save
 
 // bower
-bower install gumga-one-to-many-ng --save
+bower install gumga-many-to-many-ng --save
 
 // HTML
-&lt;script src="node_modules/gumga-one-to-many-ng/dist/gumga-one-to-many.min.js">&lt;/script>
+&lt;script src="node_modules/gumga-many-to-many-ng/dist/gumga-many-to-many.min.js">&lt;/script>
 // ou
-&lt;script src="bower_components/gumga-one-to-many-ng/dist/gumga-one-to-many.min.js">&lt;/script>
+&lt;script src="bower_components/gumga-many-to-many-ng/dist/gumga-many-to-many.min.js">&lt;/script>
 </code></pre>
         </div>
       </div>
@@ -66,20 +59,16 @@ bower install gumga-one-to-many-ng --save
         <div class="panel-body">
           <div class="row">
             <div class="col-xs-6">
-              <div class="row">
-                <gumga-one-to-many
-                  name="Novo Cliente"
-                  children="ctrl.clientes"
-                  template-url="modal.html"
-                  displayable-property="nome"
-                  controller="ModalClienteController"
-                  property="nome"
-                  edit-button-class="btn btn-primary"
-                  remove-button-class="btn btn-danger"
-                  class="ng-isolate-scope">
-                </gumga-one-to-many>
-
-              </div>
+              <gumga-many-to-many
+                left-list="dados"
+                text-left="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
+                text-right="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
+                right-list="selecionados"
+                left-search="searchLeft(param)"
+                authorize-add="false">
+                <left-field>{{$value.nome}}</left-field>
+                <right-field>{{$value.nome}}</right-field>
+              </gumga-many-to-many>
             </div>
             <div class="col-xs-6">
               <ul class="nav nav-tabs" role="tablist">
@@ -88,62 +77,35 @@ bower install gumga-one-to-many-ng --save
               </ul>
               <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="html">
-                  <pre><code class="prettyprint" ng-non-bindable>&lt;gumga-one-to-many
-  name="Novo Cliente"
-  children="ctrl.clientes"
-  template-url="modal.html"
-  displayable-property="nome"
-  controller="ModalClienteController"
-  property="nome"
-  edit-button-class="btn btn-primary"
-  remove-button-class="btn btn-danger"
-  class="ng-isolate-scope">
-&lt;/gumga-one-to-many>
-
-&lt;!-- ./modal.html -->
-&lt;div class="modal-header">
-  &lt;h3 class="modal-title">OneToMany Example&lt;/h3>
-&lt;/div>
-&lt;div class="modal-body">
-  &lt;div class="row">
-    &lt;div class="col-sm-12">
-      &lt;form name="ExampleOneToMany">
-        &lt;label>Nome&lt;/label>
-        &lt;input ng-model="entity.nome" class="form-control">
-      &lt;/form>
-    &lt;/div>
-  &lt;/div>
-&lt;/div>
-&lt;div class="modal-footer">
-  &lt;div class="row">
-    &lt;div class="col-sm-12">
-      &lt;button ng-click="cancelar()" class="btn btn-default">Cancelar&lt;/button>
-      &lt;button ng-click="salvar(entity)" ng-disabled="!entity.nome" class="btn btn-primary">Salvar&lt;/button>
-    &lt;/div>
-  &lt;/div>
-&lt;/div></code></pre>
+                  <pre><code class="prettyprint" ng-non-bindable>&lt;gumga-many-to-many
+  left-list="dados"
+  text-left="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
+  text-right="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
+  right-list="selecionados"
+  left-search="searchLeft(param)"
+  authorize-add="false">
+  &lt;left-field>{{$value.nome}}&lt;/left-field>
+  &lt;right-field>{{$value.nome}}&lt;/right-field>
+&lt;/gumga-many-to-many></code></pre>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="js">
-                  <pre><code class="prettyprint">angular.module('app', ['ui.bootstrap','gumga.onetomany'])
-  .controller('Ctrl', function () {
+                  <pre><code class="prettyprint">angular.module('app', ['gumga.manytomany'])
+  .controller('Ctrl', function ($scope) {
     var ctrl = this
-    ctrl.clientes = [{
-      nome: 'Mateus Miranda',
-      id: 1
-    }]
-  })
-  .controller('ModalClienteController',
-    function($scope, entity, $uibModalInstance){
-
-    $scope.entity = angular.copy(entity) || {};
-
-    $scope.cancelar = function(){
-      $uibModalInstance.dismiss('cancel');
+    $scope.searchLeft = function (param) {
+      console.info('Filtro:', param)
     }
 
-    $scope.salvar = function(entity){
-      $uibModalInstance.close(entity);
-    }
+    $scope.selecionados = [
+      { nome: 'Smart TV LED 43" Samsung' }
+    ]
+
+    $scope.dados = [
+      { nome: 'Notebook Acer Aspire' },
+      { nome: 'Motorola Moto X (2a Geração) 32GB' },
+      { nome: 'Smart TV LED 43" Samsung' },
+      { nome: 'Ar Condicionado Split 7000 BTU/s' }
+    ]
   })</code></pre>
                 </div>
               </div>
@@ -166,106 +128,136 @@ bower install gumga-one-to-many-ng --save
           </thead>
           <tbody>
             <tr>
-              <td><strong>children</strong></td>
-              <td><code>Array</code></td>
+              <td><strong>left-search</strong></td>
+              <td><code>Function</code></td>
               <td>Sim</td>
-              <td>Utilizado para construir a lista.</td>
+              <td>Deve retornar um <code>Array</code>. A lista da esquerda será filtrada e não terá valores que estão presentes na lista da direita.</td>
             </tr>
             <tr>
-              <td><strong>template-url</strong></td>
-              <td><code>String</code></td>
-              <td>Sim</td>
-              <td>Url na qual o template do modal estará.</td>
-            </tr>
-            <tr>
-              <td><strong>property</strong></td>
-              <td><code>String</code></td>
-              <td>Sim</td>
-              <td>Propriedade do objeto que será mostrada na lista.</td>
-            </tr>
-            <tr>
-              <td><strong>modal-title</strong></td>
-              <td><code>String</code></td>
-              <td>Sim</td>
-              <td>Título que será passado para o controller.</td>
-            </tr>
-            <tr>
-              <td><strong>name</strong></td>
-              <td><code>String</code></td>
-              <td>Sim</td>
-              <td>Texto do botão que abre a modal.</td>
-            </tr>
-            <tr>
-              <td><strong>controller</strong></td>
-              <td><code>String</code></td>
-              <td>Sim</td>
-              <td>Nome do controller que será atribuido ao modal. Este controller necessita injetar além do $scope, as propriedades entity e title.</td>
-            </tr>
-            <tr>
-              <td><strong>on-delete</strong></td>
+              <td><strong>right-search</strong></td>
               <td><code>Function</code></td>
               <td>Não</td>
-              <td>Chamada quando um elemento da lista for deletado.</td>
+              <td>Deve retornar um <code>Array</code>. A lista da direita será filtrada de acordo com o atributo informado em <code>right-search-field</code> e não terá valores que estão presentes na lista da esquerda.</td>
+            </tr>
+            <tr>
+              <td><strong>right-search-field</strong></td>
+              <td><code>String</code></td>
+              <td>Não</td>
+              <td>Nome do atributo que será usado para filtrar a lista da direita.</td>
+            </tr>
+            <tr>
+              <td><strong>left-list</strong></td>
+              <td><code>Array</code></td>
+              <td>Sim</td>
+              <td>Lista esquerda.</td>
+            </tr>
+            <tr>
+              <td><strong>right-list</strong></td>
+              <td><code>Array</code></td>
+              <td>Sim</td>
+              <td>Lista direita.</td>
+            </tr>
+            <tr>
+              <td><strong>authorize-add</strong></td>
+              <td><code>Boolean</code></td>
+              <td>Não</td>
+              <td>Controle para mostrar o botão de adicionar um novo registro.</td>
+            </tr>
+            <tr>
+              <td><strong>post-method</strong></td>
+              <td><code>Function</code></td>
+              <td>Não</td>
+              <td>Executada quando o usuário desejar adicionar um registro.</td>
+            </tr>
+            <tr>
+              <td><strong>on-list-change</strong></td>
+              <td><code>Function</code></td>
+              <td>Não</td>
+              <td>Executada quando o usuário tiver clicado em um registro e o mesmo tiver trocado de lista.</td>
             </tr>
             <tr>
               <td><strong>on-value-visualization-opened</strong></td>
               <td><code>Function</code></td>
-              <td>Sim</td>
+              <td>Não</td>
               <td>Executada quando o usuário tiver aberto o modal para visualização de dados.</td>
             </tr>
             <tr>
               <td><strong>on-value-visualization-closed</strong></td>
               <td><code>Function</code></td>
               <td>Não</td>
-              <td>Executada quando o usuário tiver fechado o modal para visualização de dados.</td>
+              <td>Executada quando o usuário tiver fechado o modal.</td>
             </tr>
             <tr>
-              <td><strong>edit-button</strong></td>
-              <td><code>String</code></td>
+              <td><strong>validate-item</strong></td>
+              <td><code>Function</code></td>
               <td>Não</td>
-              <td>Texto do botão editar.</td>
+              <td>Deve retornar um booleano após uma condição feita com o valor passado via parâmetro.</td>
             </tr>
             <tr>
-              <td><strong>edit-button-title</strong></td>
+              <td><strong>validate-message</strong></td>
               <td><code>String</code></td>
               <td>Não</td>
-              <td>Atributo title do botão editar.</td>
+              <td>mensagem de erro para o resultado do <code>validate-item</code>.</td>
             </tr>
             <tr>
-              <td><strong>edit-button-class</strong></td>
+              <td><strong>text-left</strong></td>
               <td><code>String</code></td>
               <td>Não</td>
-              <td>Atributo class do botão editar.</td>
+              <td>Lista da querda</td>
             </tr>
             <tr>
-              <td><strong>edit-button-icon</strong></td>
+              <td><strong>text-right</strong></td>
               <td><code>String</code></td>
               <td>Não</td>
-              <td>Atributo class do ícone do botão editar.</td>
+              <td>Lista da direita</td>
             </tr>
             <tr>
-              <td><strong>remove-button</strong></td>
+              <td><strong>text-left-empty</strong></td>
               <td><code>String</code></td>
               <td>Não</td>
-              <td>Texto do botão remover.</td>
+              <td>Quando a lista da esquerda estiver vazia.</td>
             </tr>
             <tr>
-              <td><strong>remove-button-title</strong></td>
+              <td><strong>text-right-empty</strong></td>
               <td><code>String</code></td>
               <td>Não</td>
-              <td>Atributo title do botão remover.</td>
+              <td>Quando a lista da direita estiver vazia.</td>
             </tr>
             <tr>
-              <td><strong>remove-button-class</strong></td>
+              <td><strong>text-left-placeholder</strong></td>
               <td><code>String</code></td>
               <td>Não</td>
-              <td>Atributo class do botão remover.</td>
+              <td>Input da esquerda.</td>
             </tr>
             <tr>
-              <td><strong>remove-button-icon</strong></td>
+              <td><strong>text-right-placeholder</strong></td>
               <td><code>String</code></td>
               <td>Não</td>
-              <td>Atributo class do ícone do botão remover.</td>
+              <td>Input da direita.</td>
+            </tr>
+            <tr>
+              <td><strong>text-heading-left</strong></td>
+              <td><code>String</code></td>
+              <td>Não</td>
+              <td>Título da lista da esquerda.</td>
+            </tr>
+            <tr>
+              <td><strong>text-heading-right</strong></td>
+              <td><code>String</code></td>
+              <td>Não</td>
+              <td>Título da lista da direita.</td>
+            </tr>
+            <tr>
+              <td><strong>text-moveall-left</strong></td>
+              <td><code>String</code></td>
+              <td>Não</td>
+              <td>Botão de mover todos os itens da esquerda.</td>
+            </tr>
+            <tr>
+              <td><strong>text-moveall-right</strong></td>
+              <td><code>String</code></td>
+              <td>Não</td>
+              <td>botão de mover todos os itens da direita.</td>
             </tr>
           </tbody>
         </table>
@@ -278,7 +270,7 @@ bower install gumga-one-to-many-ng --save
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
     <script src="https://unpkg.com/gumga-populate-ng@1.0.0/dist/gumga-populate.min.js"></script>
-    <script src="dist/gumga-one-to-many.min.js"></script>
+    <script src="dist/gumga-many-to-many.min.js"></script>
 
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="https://gumga.github.io/components/app.js"></script>

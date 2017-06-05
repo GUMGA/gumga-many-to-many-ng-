@@ -1,19 +1,18 @@
-angular.module('app', ['ui.bootstrap','gumga.populate','gumga.onetomany'])
-  .controller('Ctrl', function () {
+angular.module('app', ['gumga.manytomany'])
+  .controller('Ctrl', function ($scope) {
     var ctrl = this
-    ctrl.clientes = [{
-      nome: 'Mateus Miranda',
-      id: 1
-    }]
-  })
-  .controller('ModalClienteController',function($scope, entity, $uibModalInstance){
-    $scope.entity = angular.copy(entity) || {}
-
-    $scope.cancelar = function(){
-      $uibModalInstance.dismiss('cancel')
+    $scope.searchLeft = function (param) {
+      console.info('Filtro:', param)
     }
 
-    $scope.salvar = function(entity){
-      $uibModalInstance.close(entity)
-    }
+    $scope.selecionados = [
+      { nome: 'Smart TV LED 43" Samsung' }
+    ]
+
+    $scope.dados = [
+      { nome: 'Notebook Acer Aspire' },
+      { nome: 'Motorola Moto X (2a Geração) 32GB' },
+      { nome: 'Smart TV LED 43" Samsung' },
+      { nome: 'Ar Condicionado Split 7000 BTU/s' }
+    ]
   })
