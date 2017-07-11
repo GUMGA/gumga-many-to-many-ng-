@@ -1,23 +1,18 @@
 {
   "name": "gumga-many-to-many-ng",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Gumga Many To Many",
   "main": "./src/many-to-many.js",
   "scripts": {
-    "start": "npm-run-all -p live-server watch",
-    "live-server": "live-server --host=localhost --port=9000",
-    "watch": "simplifyify 'src/many-to-many.js' -o 'dist/gumga-many-to-many.js' --bundle --minify --watch --debug",
-    "prod": "simplifyify 'src/many-to-many.js' -o 'dist/gumga-many-to-many.js' --bundle --minify",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack-dev-server --config ./webpack.dev.config.js",
+    "prod": "NODE_ENV=production webpack --config ./webpack.production.config.js && webpack --config ./webpack.production.bundle.config",
+    "doc": "node ./docs/create-doc.js"
   },
   "keywords": [
     "gumga",
     "many to many",
     "angular 1.x"
   ],
-  "directories": {
-    "example": "docs"
-  },
   "dependencies": {
     "angular": "1.5.8"
   },
@@ -52,14 +47,24 @@
     ]
   },
   "devDependencies": {
-    "angular-ui-bootstrap": "^2.5.0",
-    "babel-preset-es2015": "^6.13.2",
-    "babelify": "^7.3.0",
-    "gumga-controller-ng": "^1.1.3",
-    "gumga-rest-ng": "^1.1.3",
-    "live-server": "^1.1.0",
-    "npm-run-all": "^2.3.0",
-    "simplifyify": "^3.2.1"
+    "angular": "1.5.8",
+    "angular-mocks": "1.5.8",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.8",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "css-loader": "^0.28.2",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
+    "gumga-controller-ng": "^1.1.5",
+    "gumga-rest-ng": "^1.1.5",
+    "script-loader": "^0.7.0",
+    "uglifyjs-webpack-plugin": "^0.4.3",
+    "unminified-webpack-plugin": "^1.1.1",
+    "webpack": "^2.6.0",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-stream": "^3.2.0"
   },
   "author": "Gumga Tecnologia da Informação S/A",
   "license": "LGPL-3.0"
