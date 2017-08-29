@@ -80,7 +80,7 @@ ManyToMany.$inject = ['$q', '$compile', '$timeout', '$uibModal'];
 
 function ManyToMany($q, $compile, $timeout, $uibModal) {
 
-  var template = '\n  <div class="row">\n    <div class="col-md-6 col-xs-6">\n      <div class="navbar">\n        <label ng-hide="ctrl.leftListAux.length > 0">{{ctrl.textLeftEmpty}}</label>\n        <label ng-show="ctrl.leftListAux.length > 0" id="textinfoleft"></label>\n        <div ng-class="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd ? \'input-group\' : \'\'">\n          <input class="form-control gmd input-sm" placeholder="{{ctrl.textLeftPlaceholder}}" ng-change="ctrl.filterLeft(leftsearch)" ng-model="leftsearch"/>\n          <span class="bar"></span>\n          <div ng-click="ctrl.addNew(leftsearch)" ng-show="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd" class="input-group-addon hover">\n            <i class="glyphicon glyphicon-plus"></i>\n          </div>\n        </div>\n      </div>\n      <div class="panel gmd">\n        <div class="panel-heading ">{{ctrl.textHeadingLeft}}</div>\n        <ul class="list-group" style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">\n          <li class="list-group-item hover" ng-repeat="$value in ctrl.leftListAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index, $event)">\n            <span name="fieldleft"></span>\n          </li>\n        </ul>\n        <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.leftListAux, ctrl.rightList, \'right\')" ng-disabled="ctrl.leftListAux.length == 0">\n          {{ctrl.textMoveallLeft}}\n          <span class="glyphicon glyphicon-arrow-right"></span>\n        </div>\n      </div>\n    </div>\n    <div class="col-md-6 col-xs-6">\n      <div class="navbar">\n        <label ng-hide="ctrl.rightList.length > 0">{{ctrl.textRightEmpty}}</label>\n        <label ng-show="ctrl.rightList.length > 0" id="textinforight"></label>\n        <input class="form-control input-sm gmd" ng-disabled="!ctrl.rightSearchField" placeholder="{{ctrl.textRightPlaceholder}}" ng-change="ctrl.filterRight(rightsearch)" ng-model="rightsearch"/>\n        <span class="bar"></span>\n      </div>\n      <div class="panel gmd">\n        <div class="panel-heading ">{{ctrl.textHeadingRight}}</div>\n        <ul class="list-group" ng-cloak style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">\n          <li class="list-group-item hover" ng-repeat="$value in ctrl.rightAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index)">\n            <span name="fieldright">{{$value}}</span>\n          </li>\n        </ul>\n        <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftListAux, \'left\')" ng-disabled="ctrl.rightAux.length == 0">\n          <span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight}}\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-xs-12" ng-show="ctrl.hasInvalid">\n      <p class="alert alert-danger">{{ ctrl.validateMessage }}</p>\n    </div>\n  </div>';
+  var template = '\n  <div class="row">\n    <div class="col-md-6 col-xs-6">\n      <div class="navbar">\n        <label ng-hide="ctrl.leftListAux.length > 0">{{ctrl.textLeftEmpty}}</label>\n        <label ng-show="ctrl.leftListAux.length > 0" id="textinfoleft"></label>\n        <div ng-class="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd ? \'input-group\' : \'\'">\n          <input class="form-control gmd input-sm" placeholder="{{ctrl.textLeftPlaceholder}}" ng-change="ctrl.filterLeft(leftsearch)" ng-model="leftsearch"/>\n          <span class="bar"></span>\n          <div ng-click="ctrl.addNew(leftsearch)" ng-show="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd" class="input-group-addon hover">\n            <i class="glyphicon glyphicon-plus"></i>\n          </div>\n        </div>\n      </div>\n      <div class="panel gmd">\n        <div class="panel-heading ">{{ctrl.textHeadingLeft}}</div>\n        <ul class="list-group" style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">\n          <li class="list-group-item hover"\n              ng-repeat="$value in ctrl.leftListAux track by $index"\n              style="{{ctrl.ngDisabled ? \'opacity: 0.8;\' : \'\'}}"\n              ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index, $event)">\n            <span name="fieldleft"></span>\n          </li>\n        </ul>\n        <div class="panel-footer hover" style="text-align: center;{{ctrl.ngDisabled ? \'opacity: 0.8;\' : \'\'}}" ng-click="ctrl.moveAllItems(ctrl.leftListAux, ctrl.rightList, \'right\')" ng-disabled="ctrl.leftListAux.length == 0">\n          {{ctrl.textMoveallLeft}}\n          <span class="glyphicon glyphicon-arrow-right"></span>\n        </div>\n      </div>\n    </div>\n    <div class="col-md-6 col-xs-6">\n      <div class="navbar">\n        <label ng-hide="ctrl.rightList.length > 0">{{ctrl.textRightEmpty}}</label>\n        <label ng-show="ctrl.rightList.length > 0" id="textinforight"></label>\n        <input class="form-control input-sm gmd" ng-disabled="!ctrl.rightSearchField" placeholder="{{ctrl.textRightPlaceholder}}" ng-change="ctrl.filterRight(rightsearch)" ng-model="rightsearch"/>\n        <span class="bar"></span>\n      </div>\n      <div class="panel gmd">\n        <div class="panel-heading ">{{ctrl.textHeadingRight}}</div>\n        <ul class="list-group" ng-cloak style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">\n          <li class="list-group-item hover"\n              ng-repeat="$value in ctrl.rightAux track by $index"\n              style="{{ctrl.ngDisabled ? \'opacity: 0.8;\' : \'\'}}"\n              ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index)">\n            <span name="fieldright">{{$value}}</span>\n          </li>\n        </ul>\n        <div class="panel-footer hover" style="text-align: center;{{ctrl.ngDisabled ? \'opacity: 0.8;\' : \'\'}}" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftListAux, \'left\')" ng-disabled="ctrl.rightAux.length == 0">\n          <span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight}}\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-xs-12" ng-show="ctrl.hasInvalid">\n      <p class="alert alert-danger">{{ ctrl.validateMessage }}</p>\n    </div>\n  </div>';
   controller.$inject = ['$scope', '$element', '$attrs', '$transclude'];
 
   function controller($scope, $element, $attrs, $transclude) {
@@ -140,6 +140,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       };
 
       ctrl.moveAllItems = function (fromList, toList, position) {
+        if (ctrl.ngDisabled) return;
         var validList = fromList.filter(function (value) {
           return eventHandler.validateItem({ value: value });
         });
@@ -156,8 +157,8 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       };
 
       function replaceLabels() {
-        var replaceLeft = '<span name="fieldleft"><span >'.concat(ctrl.fields.left).concat('</span><i ng-click="ctrl.openModal($event, $value)" class="pull-right glyphicon glyphicon-exclamation-sign hover-icon-blue"></i></span>');
-        var replaceRight = '<span name="fieldright"><span>'.concat(ctrl.fields.right).concat('</span><i ng-click="ctrl.openModal($event, $value)" class="pull-right glyphicon glyphicon-exclamation-sign hover-icon-blue"></i></span>');
+        var replaceLeft = '<span name="fieldleft"><span >'.concat(ctrl.fields.left).concat('</span><i ng-click="ctrl.openModal($event, $value)" ng-hide="ctrl.hideMoreInfo" class="pull-right glyphicon glyphicon-exclamation-sign hover-icon-blue"></i></span>');
+        var replaceRight = '<span name="fieldright"><span>'.concat(ctrl.fields.right).concat('</span><i ng-click="ctrl.openModal($event, $value)" ng-hide="ctrl.hideMoreInfo" class="pull-right glyphicon glyphicon-exclamation-sign hover-icon-blue"></i></span>');
         $timeout(function () {
           [].slice.call(document.getElementsByName('fieldleft')).forEach(function (label, index) {
             angular.element(label).replaceWith($compile(replaceLeft)(angular.element(label).scope()));
@@ -213,6 +214,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
         });
       };
       ctrl.removeOrAdd = function (removeFrom, addTo, value, index, event) {
+        if (ctrl.ngDisabled) return;
         if (eventHandler.validateItem({ value: value })) {
           removeFrom.splice(index, 1);
           addTo.push(value);
@@ -307,10 +309,12 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       validateItem: '&?',
       onListChange: '&?',
       onNewValueAdded: '&?',
+      ngDisabled: '=?',
       onValueVisualizationOpened: '&?',
       onValueVisualizationClosed: '&?',
       authorizeAdd: '=?',
-      equals: '&?'
+      equals: '&?',
+      hideMoreInfo: '=?'
     },
     bindToController: true,
     transclude: true,

@@ -15,7 +15,10 @@
     <div class="col-md-8 col-md-offset-2">
       <h1>Gumga Many To Many</h1>
 
+
       <gumga-many-to-many
+        ng-disabled="desabilita"
+        hide-more-info="mostrarOuNao"
         left-list="pessoas.data"
         text-left="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
         text-right="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
@@ -45,7 +48,7 @@
         $httpProvider.defaults.headers.common['gumgaToken'] = 'homologacaokids'
       })
       .controller('ctrl', ['gumgaController', 'GumgaRest', '$scope', function (gumgaController, GumgaRest, $scope) {
-        var PessoaService = new GumgaRest('http://192.168.25.250/gileadeweb-api/api/pessoacadastro');
+        var PessoaService = new GumgaRest('http://app.db1.com.br:9501/gileadeweb-api/api/pessoacadastro');
         gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
         $scope.pessoas.methods.get();
 

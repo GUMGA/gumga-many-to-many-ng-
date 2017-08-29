@@ -21,11 +21,14 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       <div class="panel gmd">
         <div class="panel-heading ">{{ctrl.textHeadingLeft}}</div>
         <ul class="list-group" style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
-          <li class="list-group-item hover" ng-repeat="$value in ctrl.leftListAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index, $event)">
+          <li class="list-group-item hover"
+              ng-repeat="$value in ctrl.leftListAux track by $index"
+              style="{{ctrl.ngDisabled ? 'opacity: 0.8;' : ''}}"
+              ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index, $event)">
             <span name="fieldleft"></span>
           </li>
         </ul>
-        <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.leftListAux, ctrl.rightList, 'right')" ng-disabled="ctrl.leftListAux.length == 0">
+        <div class="panel-footer hover" style="text-align: center;{{ctrl.ngDisabled ? 'opacity: 0.8;' : ''}}" ng-click="ctrl.moveAllItems(ctrl.leftListAux, ctrl.rightList, 'right')" ng-disabled="ctrl.leftListAux.length == 0">
           {{ctrl.textMoveallLeft}}
           <span class="glyphicon glyphicon-arrow-right"></span>
         </div>
@@ -41,11 +44,14 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       <div class="panel gmd">
         <div class="panel-heading ">{{ctrl.textHeadingRight}}</div>
         <ul class="list-group" ng-cloak style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
-          <li class="list-group-item hover" ng-repeat="$value in ctrl.rightAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index)">
+          <li class="list-group-item hover"
+              ng-repeat="$value in ctrl.rightAux track by $index"
+              style="{{ctrl.ngDisabled ? 'opacity: 0.8;' : ''}}"
+              ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index)">
             <span name="fieldright">{{$value}}</span>
           </li>
         </ul>
-        <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftListAux, 'left')" ng-disabled="ctrl.rightAux.length == 0">
+        <div class="panel-footer hover" style="text-align: center;{{ctrl.ngDisabled ? 'opacity: 0.8;' : ''}}" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftListAux, 'left')" ng-disabled="ctrl.rightAux.length == 0">
           <span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight}}
         </div>
       </div>
@@ -111,6 +117,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       }
 
       ctrl.moveAllItems = function (fromList, toList, position) {
+        if(ctrl.ngDisabled) return;
         let validList = fromList.filter(value => {
           return eventHandler.validateItem({ value: value })
         })
@@ -127,8 +134,8 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       }
 
       function replaceLabels() {
-        let replaceLeft = '<span name="fieldleft"><span >'.concat(ctrl.fields.left).concat('</span><i ng-click="ctrl.openModal($event, $value)" class="pull-right glyphicon glyphicon-exclamation-sign hover-icon-blue"></i></span>');
-        let replaceRight = '<span name="fieldright"><span>'.concat(ctrl.fields.right).concat('</span><i ng-click="ctrl.openModal($event, $value)" class="pull-right glyphicon glyphicon-exclamation-sign hover-icon-blue"></i></span>');
+        let replaceLeft = '<span name="fieldleft"><span >'.concat(ctrl.fields.left).concat('</span><i ng-click="ctrl.openModal($event, $value)" ng-hide="ctrl.hideMoreInfo" class="pull-right glyphicon glyphicon-exclamation-sign hover-icon-blue"></i></span>');
+        let replaceRight = '<span name="fieldright"><span>'.concat(ctrl.fields.right).concat('</span><i ng-click="ctrl.openModal($event, $value)" ng-hide="ctrl.hideMoreInfo" class="pull-right glyphicon glyphicon-exclamation-sign hover-icon-blue"></i></span>');
         $timeout(() => {
           [].slice.call(document.getElementsByName('fieldleft')).forEach((label, index) => {
             angular.element(label).replaceWith($compile(replaceLeft)(angular.element(label).scope()));
@@ -184,6 +191,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
         })
       }
       ctrl.removeOrAdd = function (removeFrom, addTo, value, index, event) {
+        if(ctrl.ngDisabled) return;
         if (eventHandler.validateItem({ value: value })) {
           removeFrom.splice(index, 1);
           addTo.push(value);
@@ -274,10 +282,12 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       validateItem: '&?',
       onListChange: '&?',
       onNewValueAdded: '&?',
+      ngDisabled: '=?',
       onValueVisualizationOpened: '&?',
       onValueVisualizationClosed: '&?',
       authorizeAdd: '=?',
-      equals: '&?'
+      equals: '&?',
+      hideMoreInfo: '=?'
     },
     bindToController: true,
     transclude: true,
