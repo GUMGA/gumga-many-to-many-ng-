@@ -15,7 +15,6 @@
     <div class="col-md-8 col-md-offset-2">
       <h1>Gumga Many To Many</h1>
 
-
       <gumga-many-to-many
         ng-disabled="desabilita"
         hide-more-info="mostrarOuNao"
@@ -24,10 +23,12 @@
         text-right="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
         right-list="selecionados"
         equals="compare(left, right)"
-        left-search="pessoas.methods.asyncSearch('nome', param)"
+        on-move-right="onRight(value)"
+        on-move-left="onLeft(value)"
+        left-search="pessoas.methods.search('name', param)"
         authorize-add="false">
-        <left-field>{{$value.nome}}</left-field>
-        <right-field>{{$value.nome}}</right-field>
+        <left-field>{{$value.name}}</left-field>
+        <right-field>{{$value.name}}</right-field>
       </gumga-many-to-many>
 
     </div>
@@ -45,15 +46,27 @@
     angular
       .module('app', ['ui.bootstrap','gumga.manytomany','gumga.controller', 'gumga.rest'])
       .config(function ($httpProvider) {
-        $httpProvider.defaults.headers.common['gumgaToken'] = 'homologacaokids'
+        $httpProvider.defaults.headers.common['gumgaToken'] = 'eterno'
       })
       .controller('ctrl', ['gumgaController', 'GumgaRest', '$scope', function (gumgaController, GumgaRest, $scope) {
-        var PessoaService = new GumgaRest('http://app.db1.com.br:9501/gileadeweb-api/api/pessoacadastro');
+        var PessoaService = new GumgaRest('https://gumga.io/security-api/api/user');
         gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
         $scope.pessoas.methods.get();
 
         $scope.compare = function(left, right){
           return left.id == right.id;
+        }
+
+        $scope.listChange = function(value){
+          console.log(value);
+        }
+
+        $scope.onRight = function(evt){
+          console.log('right', evt);
+        }
+
+        $scope.onLeft = function(evt){
+          console.log('left', evt);
         }
 
       }])

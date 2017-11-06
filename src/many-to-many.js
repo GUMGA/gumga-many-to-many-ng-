@@ -24,7 +24,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
           <li class="list-group-item hover"
               ng-repeat="$value in ctrl.leftListAux track by $index"
               style="{{ctrl.ngDisabled ? 'opacity: 0.8;' : ''}}"
-              ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index, $event)">
+              ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index, $event);ctrl.onMoveRight({value: $value});">
             <span name="fieldleft"></span>
           </li>
         </ul>
@@ -47,7 +47,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
           <li class="list-group-item hover"
               ng-repeat="$value in ctrl.rightAux track by $index"
               style="{{ctrl.ngDisabled ? 'opacity: 0.8;' : ''}}"
-              ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index)">
+              ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index);ctrl.onMoveLeft({value: $value})">
             <span name="fieldright">{{$value}}</span>
           </li>
         </ul>
@@ -117,7 +117,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       }
 
       ctrl.moveAllItems = function (fromList, toList, position) {
-        if(ctrl.ngDisabled) return;
+        if(ctrl.ngDisabled) return;        
         let validList = fromList.filter(value => {
           return eventHandler.validateItem({ value: value })
         })
@@ -131,6 +131,21 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
         replaceLabels();
         $scope.rightsearch = '';
         $scope.leftsearch = '';
+        
+        if (position == "left") {
+          eventHandler.listChange({ value: ctrl.rightList });
+          if(ctrl.onMoveLeft){
+            ctrl.onMoveLeft({value: ctrl.rightList});
+          }
+        }
+
+        if (position == "right") {
+          eventHandler.listChange({ value: ctrl.leftList });
+          if(ctrl.onMoveRight){
+            ctrl.onMoveRight({value: ctrl.leftList});
+          }
+        }
+
       }
 
       function replaceLabels() {
@@ -190,6 +205,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
           eventHandler.valueVisualizationClosed();
         })
       }
+
       ctrl.removeOrAdd = function (removeFrom, addTo, value, index, event) {
         if(ctrl.ngDisabled) return;
         if (eventHandler.validateItem({ value: value })) {
@@ -287,7 +303,9 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       onValueVisualizationClosed: '&?',
       authorizeAdd: '=?',
       equals: '&?',
-      hideMoreInfo: '=?'
+      hideMoreInfo: '=?',
+      onMoveLeft: '&?',
+      onMoveRight: '&?'
     },
     bindToController: true,
     transclude: true,
