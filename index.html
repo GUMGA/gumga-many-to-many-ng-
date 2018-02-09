@@ -24,6 +24,8 @@
         right-list="selecionados"
         equals="compare(left, right)"
         on-move-right="onRight(value)"
+        validate-item="validar(value)"
+        validate-message="Item não pode ser selecionado"
         on-move-left="onLeft(value)"
         left-search="pessoas.methods.search('name', param)"
         authorize-add="false">
@@ -53,6 +55,8 @@
         gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
         $scope.pessoas.methods.get();
 
+        $scope.selecionados = [{"id":4,"oi":null,"name":"Rafael Mangolin","login":"rbmangolin@gmail.com","password":"HmiSQSGFtJv999zwfF9Vm0wRw06v3S76koITgQ==","status":{"value":true},"internalCode":null,"picture":null,"organizations":null,"extra":null,"hidden":false}];
+
         $scope.compare = function(left, right){
           return left.id == right.id;
         }
@@ -62,12 +66,17 @@
         }
 
         $scope.onRight = function(evt){
-          console.log('right', evt);
+          // console.log('right', evt);
         }
 
         $scope.onLeft = function(evt){
-          console.log('left', evt);
+          // console.log('left', evt);
         }
+
+        $scope.validar = value => {
+          // console.log(value);
+          return value.id != 3 && value.id != 4;
+        } 
 
       }])
   </script>

@@ -1,6 +1,6 @@
 {
   "name": "gumga-many-to-many-ng",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Gumga Many To Many",
   "main": "./src/many-to-many.js",
   "authors": [

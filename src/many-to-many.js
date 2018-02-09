@@ -47,7 +47,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
           <li class="list-group-item hover"
               ng-repeat="$value in ctrl.rightAux track by $index"
               style="{{ctrl.ngDisabled ? 'opacity: 0.8;' : ''}}"
-              ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index);ctrl.onMoveLeft({value: $value})">
+              ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index, $event);ctrl.onMoveLeft({value: $value})">
             <span name="fieldright">{{$value}}</span>
           </li>
         </ul>
@@ -209,6 +209,7 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
       ctrl.removeOrAdd = function (removeFrom, addTo, value, index, event) {
         if(ctrl.ngDisabled) return;
         if (eventHandler.validateItem({ value: value })) {
+          delete ctrl.hasInvalid;
           removeFrom.splice(index, 1);
           addTo.push(value);
           replaceLabels();
