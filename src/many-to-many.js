@@ -210,7 +210,12 @@ function ManyToMany($q, $compile, $timeout, $uibModal) {
         if(ctrl.ngDisabled) return;
         if (eventHandler.validateItem({ value: value })) {
           delete ctrl.hasInvalid;
-          removeFrom.splice(index, 1);
+          if (value.id) {
+            const arrIndex = removeFrom.findIndex((s) => s.id == value.id)
+            removeFrom.splice(arrIndex, 1);
+          } else {
+            removeFrom.splice(index, 1);
+          }
           addTo.push(value);
           replaceLabels();
           ctrl.removeDuplicates();

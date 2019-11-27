@@ -16,16 +16,13 @@
       <h1>Gumga Many To Many</h1>
 
       <gumga-many-to-many
-        ng-disabled="desabilita"
-        hide-more-info="mostrarOuNao"
         left-list="pessoas.data"
         text-left="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
         text-right="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
         right-list="selecionados"
+        right-search-field="name"
         equals="compare(left, right)"
         on-move-right="onRight(value)"
-        validate-item="validar(value)"
-        validate-message="Item não pode ser selecionado"
         on-move-left="onLeft(value)"
         left-search="pessoas.methods.search('name', param)"
         authorize-add="false">
@@ -51,7 +48,7 @@
         $httpProvider.defaults.headers.common['gumgaToken'] = 'eterno'
       })
       .controller('ctrl', ['gumgaController', 'GumgaRest', '$scope', function (gumgaController, GumgaRest, $scope) {
-        var PessoaService = new GumgaRest('https://gumga.io/security-api/api/user');
+        var PessoaService = new GumgaRest('https://api.gumga.studio/security-api/api/user');
         gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
         $scope.pessoas.methods.get();
 
