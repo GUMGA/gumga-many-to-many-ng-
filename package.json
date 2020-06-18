@@ -14,7 +14,7 @@
     "angular 1.x"
   ],
   "dependencies": {
-    "angular": "1.5.8"
+    "angular": "1.8.0"
   },
   "browserify": {
     "transform": [
